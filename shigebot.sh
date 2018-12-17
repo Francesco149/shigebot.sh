@@ -140,9 +140,9 @@ api() {
 }
 
 handle_recv() {
-  touch "$activityf"
+  touch "$activity_file"
   while read -r rl; do
-    touch "$activityf"
+    touch "$activity_file"
     echo "$rl" | sed 's/^[^:]/: &/'
   done
 }
@@ -187,9 +187,6 @@ handle_send() {
 }
 
 connect() {
-  module="$1"
-  activityf="$2"
-  channel="$3"
   errcho "starting $module"
   echo "PASS oauth:$oauth"
   echo "NICK $user"
@@ -198,14 +195,14 @@ connect() {
 }
 
 start_handler() {
-  bname="$(basename "$f")_$1"
+  bname="$(basename "$module")_$channel"
   fifo="$tmpdir/$bname.fifo"
   activity_file="$tmpdir/$bname.activity"
   mkfifo "$fifo"
   while true; do
     # shellcheck disable=SC2094
     openssl s_client -quiet -ign_eof -connect "$irc_server" <"$fifo" |
-      connect "$f" "$activity_file" "$1" >"$fifo" &
+      connect >"$fifo" &
     pid=$!
     while true; do
       activity=$(find "$activity_file" -printf "%T@" |
@@ -213,7 +210,7 @@ start_handler() {
       now="$(date +%s)"
       since=$(( now - activity ))
       if [ $since -gt 300 ]; then
-        echo "connection seems to be dead, restarting $f"
+        echo "connection seems to be dead, restarting $module"
         kill -9 $pid
         break
       fi
@@ -229,10 +226,10 @@ run() {
   echo "starting up as $user"
   tmpdir="$(mktemp -d)"
   trap 'rm -rf "$tmpdir"; kill 0; exit' INT EXIT
-  for f in "${@:-handlers}"/*; do
-    if [ -x "$f" ]; then
-      for c in $(echo "$channels" | awk '{ print $1 }'); do
-        start_handler "$c" &
+  for module in "${@:-handlers}"/*; do
+    if [ -x "$module" ]; then
+      for channel in $(echo "$channels" | awk '{ print $1 }'); do
+        start_handler &
       done
     fi
   done
