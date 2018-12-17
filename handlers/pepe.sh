@@ -16,7 +16,7 @@ pepe_pool() {
 while read -r line; do
   irccmd="$(echo "$line" | awk '{ print $2 }')"
   case "$irccmd" in
-  PING) echo "$line" | sed s/^PING/PONG/ ;;
+  PING) echo "$line" | sed s/PING/PONG/ ;;
   PRIVMSG) #:user!user@user.tmi.twitch.tv PRIVMSG #channel :text\r\n
     channel="$(echo "$line" | awk '{ printf $3 }')"
     message="$(echo "$line" | awk '{ printf $4 }' | tr -d '\r')"
