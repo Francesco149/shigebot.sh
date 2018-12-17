@@ -200,7 +200,7 @@ connect() {
 start_handler() {
   bname="$(basename "$f")_$1"
   fifo="$tmpdir/$bname.fifo"
-  activity_file="$tmpdir/$bname.fifo"
+  activity_file="$tmpdir/$bname.activity"
   mkfifo "$fifo"
   while true; do
     # shellcheck disable=SC2094
