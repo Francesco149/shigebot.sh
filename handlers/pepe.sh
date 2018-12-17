@@ -18,8 +18,8 @@ while read -r line; do
   case "$irccmd" in
   PING) echo "$line" | sed s/PING/PONG/ ;;
   PRIVMSG) #:user!user@user.tmi.twitch.tv PRIVMSG #channel :text\r\n
-    channel="$(echo "$line" | awk '{ printf $3 }')"
-    message="$(echo "$line" | awk '{ printf $4 }' | tr -d '\r')"
+    channel="$(echo "$line" | awk '{ print $3 }')"
+    message="$(echo "$line" | awk '{ print $4 }' | tr -d '\r')"
     case "$message" in
       :!pepe)
         n="$(od -vAn -N2 -tu2 < /dev/urandom)"
