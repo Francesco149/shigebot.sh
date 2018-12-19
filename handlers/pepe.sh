@@ -1,7 +1,7 @@
 #!/bin/sh
 
 emotes="$(mktemp)"
-curl -s https://api.betterttv.net/2/emotes | tr '"' '\n' > "$emotes"
+wget -qO- https://api.betterttv.net/2/emotes | tr '"' '\n' > "$emotes"
 pepes=$(sed -n '/^Feels.*$/p' < "$emotes")
 holiday=$(sed -n '/^SoSnowy.*$/p' < "$emotes")
 rm "$emotes"
@@ -22,10 +22,10 @@ while read -r line; do
     message="$(echo "$line" | awk '{ print $4 }' | tr -d '\r')"
     case "$message" in
       :!pepe)
-        n="$(od -vAn -N2 -tu2 < /dev/urandom)"
+        n="0x$(xxd -p -g2 -l2 < /dev/urandom)"
         n=$(( n % 10001 ))
         n="$(printf "%03d" $n | sed 's/..$/.&/')"
-        pepe="$(pepe_pool | shuf -n 1 --random-source=/dev/urandom)"
+        pepe="$(pepe_pool | shuf -n 1)"
         echo "PRIVMSG $channel :$pepe $holiday [$n]"
         ;;
     esac
