@@ -10,17 +10,12 @@ stfu() {
   return $?
 }
 
-for p in openssl curl awk grep mkfifo touch; do
+for p in openssl awk grep mkfifo touch; do
   if ! stfu command -v "$p"; then
     echo "$p was not found, please install it"
     exit 1
   fi
 done
-
-if ! curl -V | grep -q https; then
-  echo "curl https support is missing, please rebuild your curl with https"
-  exit 1
-fi
 
 urlopen() {
   for b in xdg-open "$BROWSER" qutebrowser firefox chromium-browser \
@@ -66,8 +61,14 @@ serve_string() {
 
 auth() {
   if [ ! -f config.sh ]; then
-    if ! stfu command -v nc; then
-      echo "nc was not found, please install it"
+    for p in nc curl; do
+      if ! stfu command -v "$p"; then
+        echo "$p was not found, please install it"
+        exit 1
+      fi
+    done
+    if ! curl -V | grep -q https; then
+      echo "curl https support is missing, please rebuild your curl with https"
       exit 1
     fi
     echo "you need to authorize shigebot on the twitch account you want"
@@ -111,8 +112,10 @@ authorizing...
     echo "which channels should the bot join?"
     printf "(space separated, you can edit this later): "
     read -r channels
+    user="$(api / user_name)"
     cat >config.sh << EOF
 #!/bin/sh
+export user=$user
 export oauth=$oauth
 # channel n_messages n_seconds interval_seconds
 # will send a maximum of n_messages every n_seconds to channel with a
@@ -223,8 +226,6 @@ start_handler() {
 run() {
   auth
   . ./config.sh
-  user="$(api / user_name)"
-  echo "starting up as $user"
   tmpdir="$(mktemp -d)"
   trap 'rm -rf "$tmpdir"; kill 0; exit' INT EXIT
   for module in "${@:-handlers}"/*; do

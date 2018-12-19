@@ -6,7 +6,8 @@ twitch irc bot and irc-ifier in sh
 you most likely already have all of this out of the box on linux
 * sh or bash: tested on dash and busybox ash
 * netcat: only for authentication, should work with all nc variants
-* curl with https support
+* curl with https support: only for authentication or if you want to
+  run the sample ```pepe.sh``` handler
 * mkfifo
 * openssl or libressl: tested on libressl
 
