@@ -60,60 +60,60 @@ serve_string() {
 }
 
 auth() {
-  if [ ! -f config.sh ]; then
-    for p in nc curl; do
-      if ! stfu command -v "$p"; then
-        echo "$p was not found, please install it"
-        exit 1
-      fi
-    done
-    if ! curl -V | grep -q https; then
-      echo "curl https support is missing, please rebuild your curl with https"
+  [ -f config.sh ] && return
+  for p in nc curl; do
+    if ! stfu command -v "$p"; then
+      echo "$p was not found, please install it"
       exit 1
     fi
-    echo "you need to authorize shigebot on the twitch account you want"
-    echo "to run the bot from. make sure you are on a machine that has"
-    echo "a web browser and confirm"
-    echo
-    printf "proceed with the authorization (y/N)?: "
-    read -r answer
-    if [ "$(echo "$answer" | tr '[:upper:]' '[:lower:]')" != "y" ]; then
-      echo "canceled"
-      exit 0
-    fi
-    serve_string '
+  done
+  if ! curl -V | grep -q https; then
+    echo "curl https support is missing, please rebuild your curl with https"
+    exit 1
+  fi
+  echo "you need to authorize shigebot on the twitch account you want"
+  echo "to run the bot from. make sure you are on a machine that has"
+  echo "a web browser and confirm"
+  echo
+  printf "proceed with the authorization (y/N)?: "
+  read -r answer
+  if [ "$(echo "$answer" | tr '[:upper:]' '[:lower:]')" != "y" ]; then
+    echo "canceled"
+    exit 0
+  fi
+  serve_string '
 <html>
 <head>
 <script type="text/javascript">
 window.location.href = "http://localhost:8070/?" +
-  window.location.hash.substr(1);
+window.location.hash.substr(1);
 </script>
 </head>
 <body>
 authorizing...
 </body>
 </html>' | nc -l -p 8069 | consume_request &
-    state="$(od -vAn -N4 -tu4 < /dev/urandom | tr -d '[:space:]')"
-    authfile="$(mktemp)"
-    trap 'rm -rf "$authfile"; kill 0; exit' INT EXIT
-    serve_string "authorized, shigebot should now run" |
-      nc -l -p 8070 | consume_request_get_token "$state" >"$authfile" &
-    authpid=$!
-    auth_url="https://id.twitch.tv/oauth2/authorize"
-    auth_url="${auth_url}?client_id=$client_id"
-    auth_url="${auth_url}&redirect_uri=http://localhost:8069"
-    auth_url="${auth_url}&response_type=token"
-    auth_url="${auth_url}&scope=chat:read chat:edit"
-    auth_url="${auth_url}&force_verify=true"
-    auth_url="${auth_url}&state=$state"
-    urlopen "$auth_url"
-    wait $authpid || exit
-    oauth="$(cat <"$authfile")"
-    echo "which channels should the bot join?"
-    printf "(space separated, you can edit this later): "
-    read -r channels
-    user="$(api / user_name)"
-    cat >config.sh << EOF
+  state="$(od -vAn -N4 -tu4 < /dev/urandom | tr -d '[:space:]')"
+  authfile="$(mktemp)"
+  trap 'rm -rf "$authfile"; kill 0; exit' INT EXIT
+  serve_string "authorized, shigebot should now run" |
+    nc -l -p 8070 | consume_request_get_token "$state" >"$authfile" &
+  authpid=$!
+  auth_url="https://id.twitch.tv/oauth2/authorize"
+  auth_url="${auth_url}?client_id=$client_id"
+  auth_url="${auth_url}&redirect_uri=http://localhost:8069"
+  auth_url="${auth_url}&response_type=token"
+  auth_url="${auth_url}&scope=chat:read chat:edit"
+  auth_url="${auth_url}&force_verify=true"
+  auth_url="${auth_url}&state=$state"
+  urlopen "$auth_url"
+  wait $authpid || exit
+  oauth="$(cat <"$authfile")"
+  echo "which channels should the bot join?"
+  printf "(space separated, you can edit this later): "
+  read -r channels
+  user="$(api / user_name)"
+  cat >config.sh << EOF
 #!/bin/sh
 export user=$user
 export oauth=$oauth
@@ -122,15 +122,14 @@ export oauth=$oauth
 # minimum interval of interval_seconds between each message
 export channels="
 EOF
-    for c in $channels; do
-      echo "$c 20 30 1" >>config.sh
-    done
-    echo '"' >>config.sh
-    chmod +x config.sh
-    echo "config.sh successfully generated, edit it for further tweaks"
-    echo "NOTE: don't share your config.sh without censoring oauth"
-    echo
-  fi
+  for c in $channels; do
+    echo "$c 20 30 1" >>config.sh
+  done
+  echo '"' >>config.sh
+  chmod +x config.sh
+  echo "config.sh successfully generated, edit it for further tweaks"
+  echo "NOTE: don't share your config.sh without censoring oauth"
+  echo
 }
 
 api() {
