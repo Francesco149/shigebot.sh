@@ -10,7 +10,7 @@ stfu() {
   return $?
 }
 
-for p in openssl awk grep mkfifo touch; do
+for p in openssl awk grep mkfifo touch stat; do
   if ! stfu command -v "$p"; then
     echo "$p was not found, please install it"
     exit 1
