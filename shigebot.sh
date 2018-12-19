@@ -208,8 +208,7 @@ start_handler() {
       connect >"$fifo" &
     pid=$!
     while true; do
-      activity=$(find "$activity_file" -printf "%T@" |
-        awk -F. '{ print $1 }')
+      activity=$(stat -c %Y "$activity_file")
       now="$(date +%s)"
       since=$(( now - activity ))
       if [ $since -gt 300 ]; then
