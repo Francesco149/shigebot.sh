@@ -200,8 +200,9 @@ start_handler() {
   bname="$(basename "$module")_$channel"
   fifo="$tmpdir/$bname.fifo"
   activity_file="$tmpdir/$bname.activity"
-  mkfifo "$fifo"
   while true; do
+    stfu rm -f "$fifo"
+    mkfifo "$fifo"
     touch "$activity_file"
     # shellcheck disable=SC2094
     openssl s_client -quiet -ign_eof -connect "$irc_server" <"$fifo" |
