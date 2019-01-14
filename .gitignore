@@ -1,1 +1,6 @@
 /config.sh
+/logs.txt
+/logs.bson
+/levels.json
+/bsondump.py
+/docker.sh
