@@ -46,7 +46,7 @@ handlelogs() {
       case "$arg" in
         '=?'*) pattern=".*$(echo "$arg" | cut -d'?' -f2-)" ;;
         =*) pattern="$(echo "$arg" | cut -d'=' -f2-)" ;;
-        me) user=$(echo "$line" | awk -F '[:!]' '{ printf "%s: ", $2 }') ;;
+        me) user=$(echo "$line" | awk -F '[:!]' '{ printf $2 }') ;;
       esac
       prev_arg="$arg"
     done
