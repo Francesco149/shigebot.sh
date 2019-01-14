@@ -11,7 +11,8 @@ while read -r line; do
     msg=$(echo "$line" | cut -d ':' -f3-)
     case "$msg" in
       !*) continue ;;
-      *) ( printf "$username" && echo "$msg" ) | tr -d '\r' >>logs.txt ;;
+      *) ( printf "%s" "$username" && echo "$msg" ) |
+        tr -d '\r' >>logs.txt ;;
     esac
     ;;
   esac
