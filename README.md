@@ -50,3 +50,24 @@ container, build it and run it. it requires shigebot to be already
 authenticated
 
 the container is based on ```kubler/libressl-musl``` which is around 5MB
+
+# default commands
+these commands can be disabled by removing or moving their files from
+handlers or making them not executable (```chmod -x file.sh```)
+
+## !logs
+```handlers/logs.sh```
+prints a random message from the history.
+* ```me``` to match your own username
+* ```u username``` to match a specific username
+* ```= text``` or ```=text``` to match text at the start of the message
+* ```=? text``` or ```=?text``` to match text anywhere in the message
+* ```!logs2``` pulls 2 messages
+* ```!logs3``` pulls 3 messages
+* ```!logs99``` pulls 99 messages (can be used once every 24h)
+
+## !pepe (handlers/pepe.sh)
+prints a random pepe and a random number
+
+## !hi (handlers/hi.sh)
+prints a random number
