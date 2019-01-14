@@ -66,8 +66,10 @@ prints a random message from the history.
 * ```!logs3``` pulls 3 messages
 * ```!logs99``` pulls 99 messages (can be used once every 24h)
 
-## !pepe (handlers/pepe.sh)
+## !pepe
+```handlers/pepe.sh```
 prints a random pepe and a random number
 
-## !hi (handlers/hi.sh)
+## !hi
+```handlers/hi.sh```
 prints a random number
