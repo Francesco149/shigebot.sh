@@ -1,6 +1,7 @@
 #!/bin/sh
 
 while read -r line; do
+  >&2 echo "$line"
   irccmd="$(echo "$line" | awk '{ print $2 }')"
   case "$irccmd" in
   PING) echo "$line" | sed s/PING/PONG/ ;;
