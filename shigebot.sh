@@ -123,7 +123,7 @@ export oauth=$oauth
 export channels="
 EOF
   for c in $channels; do
-    echo "$c 20 30 1" >>config.sh
+    echo "$c 19 30 1.1" >>config.sh
   done
   echo '"' >>config.sh
   chmod +x config.sh
