@@ -49,7 +49,7 @@ this will mount ./shigebot.sh ./config.sh and ./handlers to the
 container, build it and run it. it requires shigebot to be already
 authenticated
 
-the container is based on ```kubler/libressl-musl``` which is around 5MB
+the container is based on void linux, which is pretty small
 
 # default commands
 these commands can be disabled by removing or moving their files from
