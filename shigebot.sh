@@ -176,7 +176,7 @@ handle_send() {
       add_invisible_char=$(( i % 2 ))
       suffix=""
       if [ "$add_invisible_char" = "1" ]; then
-        suffix="$(printf '\xe2\x81\xa3')"
+        suffix="$(printf ' \xe2\x81\xa3')"
       fi
       i=$(( i + 1 ))
       printf '%s' "$sl" |
