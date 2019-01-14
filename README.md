@@ -68,8 +68,10 @@ prints a random message from the history.
 
 ## !pepe
 ```handlers/pepe.sh```
+
 prints a random pepe and a random number
 
 ## !hi
 ```handlers/hi.sh```
+
 prints a random number
