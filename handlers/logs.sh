@@ -25,6 +25,7 @@ handlelogs() {
       if [ $since -lt 86400 ]; then
         return
       fi
+      touch "logs99.time"
     else
       return
     fi
