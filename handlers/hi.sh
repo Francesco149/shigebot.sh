@@ -6,7 +6,8 @@ while read -r line; do
   PING) echo "$line" | sed s/PING/PONG/ ;;
   PRIVMSG)
     channel="$(echo "$line" | awk '{ print $3 }')"
-    message="$(echo "$line" | awk '{ print $4 }' | tr -d '\r')"
+    message="$(echo "$line" | awk '{ print $4 }' | tr -d '\r' |
+      tr '[:upper:]' '[:lower:]')"
     case "$message" in
       :!hi)
         n="0x$(xxd -p -g2 -l2 < /dev/urandom)"

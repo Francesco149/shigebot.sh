@@ -61,7 +61,8 @@ while read -r line; do
   PING) echo "$line" | sed s/PING/PONG/ ;;
   PRIVMSG)
     channel="$(echo "$line" | awk '{ print $3 }')"
-    cmd="$(echo "$line" | awk '{ print $4 }' | tr -d '\r')"
+    cmd="$(echo "$line" | awk '{ print $4 }' | tr -d '\r' |
+      tr '[:upper:]' '[:lower:]')"
     case "$cmd" in
       :!logs*) handlelogs ;;
     esac
