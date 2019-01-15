@@ -38,16 +38,14 @@ handlelogs() {
   for arg in $args; do
     case "$prev_arg" in
       u) user="$arg" ;;
-      '=?') pattern=".*$arg" ;;
-      =) pattern="$arg" ;;
     esac
     case "$arg" in
-      '=?'*) pattern=".*$(echo "$arg" | cut -d'?' -f2-)" ;;
-      =*) pattern="$(echo "$arg" | cut -d'=' -f2-)" ;;
       me) user=$(echo "$line" | awk -F '[:!]' '{ printf $2 }') ;;
     esac
     prev_arg="$arg"
   done
+  pattern="$(echo "$args" | cut -d '=' -f2- |
+    sed 's/?[[:space:]]*/.*/g')"
   getlogs | shuf -n $n | sed 's/\<LUL\>/LuL/g' | sendmsg
 }
 

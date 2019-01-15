@@ -66,6 +66,10 @@ prints a random message from the history.
 * ```!logs3``` pulls 3 messages
 * ```!logs99``` pulls 99 messages (can be used once every 24h)
 
+NOTE: ```=?``` and ```=``` take all of the trailing parameters and
+join them into the search pattern, so any argument after them is
+ignored
+
 ## !pepe
 ```handlers/pepe.sh```
 
