@@ -9,7 +9,7 @@ getlogs() {
   if [ ! -z "$user" ] || [ ! -z "$pattern" ]; then
     grep "^${user:-[^:]*}: $pattern" < logs.txt
   else
-    shuf -n 1 < logs.txt
+    cat logs.txt
   fi
 }
 
@@ -30,29 +30,25 @@ handlelogs() {
       return
     fi
   fi
-  i=0
-  while [ $i -lt $n ]; do
-    i=$(( i + 1 ))
-    pattern=""
-    user=""
-    args=$(echo "$line" | awk '{ $1=$2=$3=$4=""; print $0 }' |
-      tr -d '\r')
-    prev_arg=""
-    for arg in $args; do
-      case "$prev_arg" in
-        u) user="$arg" ;;
-        '=?') pattern=".*$arg" ;;
-        =) pattern="$arg" ;;
-      esac
-      case "$arg" in
-        '=?'*) pattern=".*$(echo "$arg" | cut -d'?' -f2-)" ;;
-        =*) pattern="$(echo "$arg" | cut -d'=' -f2-)" ;;
-        me) user=$(echo "$line" | awk -F '[:!]' '{ printf $2 }') ;;
-      esac
-      prev_arg="$arg"
-    done
-    getlogs | shuf -n 1 | sed 's/\<LUL\>/LuL/g' | sendmsg
+  pattern=""
+  user=""
+  args=$(echo "$line" | awk '{ $1=$2=$3=$4=""; print $0 }' |
+    tr -d '\r')
+  prev_arg=""
+  for arg in $args; do
+    case "$prev_arg" in
+      u) user="$arg" ;;
+      '=?') pattern=".*$arg" ;;
+      =) pattern="$arg" ;;
+    esac
+    case "$arg" in
+      '=?'*) pattern=".*$(echo "$arg" | cut -d'?' -f2-)" ;;
+      =*) pattern="$(echo "$arg" | cut -d'=' -f2-)" ;;
+      me) user=$(echo "$line" | awk -F '[:!]' '{ printf $2 }') ;;
+    esac
+    prev_arg="$arg"
   done
+  getlogs | shuf -n $n | sed 's/\<LUL\>/LuL/g' | sendmsg
 }
 
 while read -r line; do
