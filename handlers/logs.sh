@@ -41,11 +41,13 @@ handlelogs() {
     esac
     case "$arg" in
       me) user=$(echo "$line" | awk -F '[:!]' '{ printf $2 }') ;;
+      =*|?=*)
+        pattern="$(echo "$args" | cut -d '=' -f2- |
+          sed 's/?[[:space:]]*/.*/g')"
+      ;;
     esac
     prev_arg="$arg"
   done
-  pattern="$(echo "$args" | cut -d '=' -f2- |
-    sed 's/?[[:space:]]*/.*/g')"
   getlogs | shuf -n $n | sed 's/\<LUL\>/LuL/g' | sendmsg
 }
 
