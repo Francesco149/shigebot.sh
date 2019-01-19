@@ -7,7 +7,7 @@ sendmsg() {
 
 getlogs() {
   if [ ! -z "$user" ] || [ ! -z "$pattern" ]; then
-    grep "^${user:-[^:]*}: $pattern" < logs.txt
+    grep -i "^${user:-[^:]*}: $pattern" < logs.txt
   else
     cat logs.txt
   fi
