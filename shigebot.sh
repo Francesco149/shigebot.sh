@@ -209,6 +209,10 @@ start_handler() {
       connect >"$fifo" &
     pid=$!
     while true; do
+      if ! kill -0 $pid; then
+        echo "$module crashed, restarting"
+        break
+      fi
       activity=$(stat -c %Y "$activity_file")
       now="$(date +%s)"
       since=$(( now - activity ))
