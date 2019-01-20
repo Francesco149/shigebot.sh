@@ -14,7 +14,7 @@ getlogs() {
 }
 
 handlelogs() {
-  n=$(echo "$cmd" | sed 's/^:!logs//g')
+  n=$(echo "$cmd" | sed 's/[^0-9]//g')
   n=$(( n + 0 ))
   [ $n -eq 0 ] && n=$(( n + 1 ))
   if [ $n -gt 3 ]; then
