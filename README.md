@@ -70,6 +70,19 @@ NOTE: ```=?``` and ```=``` take all of the trailing parameters and
 join them into the search pattern, so any argument after them is
 ignored
 
+## !markov
+```handlers/markov.sh```
+generates pseudorandom sentences using markov chains, trained with the
+chat logs. also keeps training the markov model with new chat messages
+* ```me``` to match your own username
+* ```u username``` to match a specific username
+* ```= text``` or ```=text``` to match the first word of the sentence
+* ```!markov2``` pulls 2 sentences
+* ```!markov3``` pulls 3 sentences
+
+NOTE: ```=``` takes all of the trailing parameters and joins them into the
+search pattern, so any argument after it is ignored
+
 ## !pepe
 ```handlers/pepe.sh```
 
