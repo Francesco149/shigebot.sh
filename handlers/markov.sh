@@ -39,7 +39,7 @@ getmarkov() {
     fi
   fi
   msg=$(
-    printf "$user: " &&
+    printf "%s" "$user: " &&
     mrkwords "$mrkdb/$user:" 20 "$pattern" | tr '\n' ' '
   ) && echo "$msg"
 }
@@ -66,7 +66,7 @@ handlemarkov() {
     esac
     prev_arg="$arg"
   done
-  for i in $(seq "$n"); do
+  for _ in $(seq "$n"); do
     ( getmarkov ) | sed 's/\<LUL\>/LuL/g' | sendmsg
   done
 }
