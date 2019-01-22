@@ -35,7 +35,7 @@ getmarkov() {
         awk -F'[: ]' -v pattern="$pattern" '$3 == pattern { print $0 }' |
         shuf -n 1 | awk -F'[:/]' '{ print $3 }')
     else
-      user=$(ls -1 "$mrkdb" | shuf -n 1 | sed s/://g)
+      user=$(shuf -n 1 < logs.txt | awk -F ':' '{ print $1 }')
     fi
   fi
   msg=$(
