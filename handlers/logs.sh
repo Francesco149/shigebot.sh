@@ -18,16 +18,15 @@ handlelogs() {
   n=$(( n + 0 ))
   [ $n -eq 0 ] && n=$(( n + 1 ))
   if [ $n -gt 3 ]; then
+    n=3
     if [ $n -eq 99 ]; then
       activity=$(stat -c %Y "logs99.time")
       now="$(date +%s)"
       since=$(( now - activity ))
-      if [ $since -lt 86400 ]; then
-        return
+      if [ $since -ge 86400 ]; then
+        touch "logs99.time"
+        n=99
       fi
-      touch "logs99.time"
-    else
-      return
     fi
   fi
   pattern=""
