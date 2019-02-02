@@ -3,6 +3,5 @@
 /logs.bson
 /levels.json
 /bsondump.py
-/docker.sh
 /logs99.time
 /logs.mrkdb.d
