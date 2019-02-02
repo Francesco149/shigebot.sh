@@ -92,3 +92,17 @@ prints a random pepe and a random number
 ```handlers/hi.sh```
 
 prints a random number
+
+## twitter
+when a tweet is linked, the bot responds with the tweet text and
+first media url
+
+requires curl, coreutils printf for unicode support and you should
+set twitter_bearer in config.sh with your twitter api bearer
+token. automatic twitter sign-in is TODO for now you'll have to do
+
+```
+curl --user "consumer_key:consumer_key_secret" --data "grant_type=client_credentials" https://api.twitter.com/oauth2/token
+```
+
+to get your bearer token
