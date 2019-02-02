@@ -25,6 +25,9 @@ get_tweet() {
   fi
   text=$(json_s text < "$resp")
   media=$(json_s media_url < "$resp" | sed 1q)
+  video=$(json_s url < "$resp" | grep "video\.twimg\.com" |
+    sort -nr | sed 1q)
+  [ ! -z "$video" ] && media="$video"
   echo "$text $media"
 }
 
