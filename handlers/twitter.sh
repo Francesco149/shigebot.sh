@@ -13,7 +13,7 @@ json_s() {
   LC_ALL=en_US.UTF-8 \
     $printf_cmd "$(grep -oE "\"$1\":\"((\\\\\")?[^\"])*\"" |
     cut -d':' -f2- |
-    sed -r 's/\\([^u])/\1/g; s/^"//g; s/"$//g; s/%/%%/g')"
+    sed -r 's/\\([^un])/\1/g;s/\\n/ /g;s/^"//g;s/"$//g;s/%/%%/g')"
 }
 
 get_tweet() {
