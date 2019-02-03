@@ -55,16 +55,20 @@ handlemarkov() {
   user=""
   args=$(echo "$line" | awk '{ $1=$2=$3=$4=""; print $0 }' |
     tr -d '\r')
-  prev_arg=""
+  first_arg=$(echo "$args" | awk '{ print $1 }')
+  second_arg=$(echo "$args" | awk '{ print $2 }')
+  case "$first_arg" in
+    u) [ ! -z "$second_arg" ] && user="$second_arg" ;;
+    me) user=$(echo "$line" | awk -F '[:!]' '{ printf $2 }') ;;
+  esac
   for arg in $args; do
-    case "$prev_arg" in
-      u) user="$arg" ;;
-    esac
     case "$arg" in
-      me) user=$(echo "$line" | awk -F '[:!]' '{ printf $2 }') ;;
-      =*) pattern="$(echo "$args" | cut -d '=' -f2- | awk '{ print $1 }')" ;;
+      =*)
+        pattern="$(echo "$args" | cut -d '=' -f2- |
+          awk '{ print $1 }')"
+        break
+      ;;
     esac
-    prev_arg="$arg"
   done
   for _ in $(seq "$n"); do
     ( getmarkov ) | sed 's/\<LUL\>/LuL/g' | sendmsg
