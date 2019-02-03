@@ -106,3 +106,8 @@ curl --user "consumer_key:consumer_key_secret" --data "grant_type=client_credent
 ```
 
 to get your bearer token
+
+## !urban
+gets definition from urban dictionary
+
+* ```!urban term```
