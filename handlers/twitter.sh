@@ -28,7 +28,7 @@ get_tweet() {
   video=$(json_s url < "$resp" | grep "video\.twimg\.com" |
     sort -nr | sed 1q)
   [ ! -z "$video" ] && media="$video"
-  echo "$text $media"
+  echo "🐦 $text $media 🐦"
 }
 
 sendmsg() {

@@ -41,7 +41,7 @@ getmarkov() {
   msg=$(
     printf "%s" "$user: " &&
     mrkwords "$mrkdb/$user:" 20 "$pattern" | tr '\n' ' '
-  ) && echo "$msg"
+  ) && echo "🎲  $msg 🎲"
 }
 
 handlemarkov() {
