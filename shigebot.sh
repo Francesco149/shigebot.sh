@@ -145,7 +145,8 @@ handle_recv() {
   touch "$activity_file"
   while read -r rl; do
     touch "$activity_file"
-    echo "$rl" | sed 's/^[^:]/: &/'
+    echo "$rl" | sed 's/^[^:]/: &/' | sed 's/\xe2\x81\xad//g' |
+      sed 's/\xe2\x81\xa3//g'
   done
 }
 
