@@ -2,7 +2,7 @@
 
 emotes="$(mktemp)"
 wget -qO- https://api.betterttv.net/2/emotes | tr '"' '\n' > "$emotes"
-pepes=$(sed -n '/^Feels.*$/p' < "$emotes")
+pepes=$(sed -n '/^Feels.*$/p;/^monka.*$/p' < "$emotes")
 holiday=$(sed -n '/^SoSnowy.*$/p' < "$emotes")
 rm "$emotes"
 
