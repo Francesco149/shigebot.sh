@@ -146,7 +146,7 @@ handle_recv() {
   while read -r rl; do
     touch "$activity_file"
     echo "$rl" | sed 's/^[^:]/: &/' | sed 's/\xe2\x81\xad//g' |
-      sed 's/\xe2\x81\xa3//g'
+      sed 's/\xf3\xa0\x80\x80//g'
   done
 }
 
@@ -182,8 +182,8 @@ handle_send() {
       i=$(( i + 1 ))
       printf '%s' "$sl" |
         sed '
-s/\x6e\x69\x67\x67\x65\x72/\x6e\x69\x67\xe2\x81\xa3\x67\x65\x72/g
-s/\x66\x61\x67/\x66\x61\xe2\x81\xa3\x67/g
+s/\x6e\x69\x67\x67\x65\x72/\x6e\x69\x67\xf3\xa0\x80\x80\x67\x65\x72/g
+s/\x66\x61\x67/\x66\x61\xf3\xa0\x80\x80\x67/g
         ' |
         awk -v suf="$suffix" '{ printf "%s%s\r\n", $0, suf }'
       sleep "$message_delay"
