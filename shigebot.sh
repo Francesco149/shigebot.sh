@@ -182,8 +182,8 @@ handle_send() {
       i=$(( i + 1 ))
       printf '%s' "$sl" |
         sed '
-s/\x6e\x69\x67\x67\x65\x72/\x6e\x69\x67\xf3\xa0\x80\x80\x67\x65\x72/g
-s/\x66\x61\x67/\x66\x61\xf3\xa0\x80\x80\x67/g
+s/nigger/nig\xf3\xa0\x80\x80ger/gi
+s/fag/fa\xf3\xa0\x80\x80g/gi
         ' |
         awk -v suf="$suffix" '{ printf "%s%s\r\n", $0, suf }'
       sleep "$message_delay"
