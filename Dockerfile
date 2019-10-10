@@ -1,6 +1,6 @@
 FROM voidlinux/voidlinux
 RUN xbps-install -Syu
-RUN xbps-install -Sy xxd wget curl glibc-locales
+RUN xbps-install -Sy xxd wget curl glibc-locales translate-shell
 RUN echo 'en_US.UTF-8 UTF-8' >> /etc/default/libc-locales && \
   echo 'en_US ISO-8859-1' >> /etc/default/libc-locales && \
   xbps-reconfigure -f glibc-locales && \
