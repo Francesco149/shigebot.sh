@@ -111,3 +111,11 @@ to get your bearer token
 gets definition from urban dictionary
 
 * ```!urban term```
+
+## any message containing "terry"
+triggers a random Terry A. Davis quote
+
+## !translate
+translates text to english, language is auto detected
+
+* ```!translate text```
