@@ -21,7 +21,7 @@ get_urban() {
   q=$(echo "$1" | sed 's:[/.]:_:g;s/^[[:space:]]*//g;s/[[:space:]]*$//g')
   resp="urban_cache/$q.json"
   if [ ! -f "$resp" ] || find "$resp" -empty | grep -q "."; then
-    curl --get "http://api.urbandictionary.com/v0/define" \
+    curl --get "https://api.urbandictionary.com/v0/define" \
       --data-urlencode "term=$1" > "$resp"
   fi
   text=$(json_s definition < "$resp" |
