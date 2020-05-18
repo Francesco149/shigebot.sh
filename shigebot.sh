@@ -95,7 +95,8 @@ authorizing...
 </html>' | nc -l -p 8069 | consume_request &
   state="$(od -vAn -N4 -tu4 < /dev/urandom | tr -d '[:space:]')"
   authfile="$(mktemp)"
-  trap 'rm -rf "$authfile"; kill 0; exit' INT EXIT
+  group=$(cat /proc/self/stat | sed -n '$s/.*) [^ ]* [^ ]* \([^ ]*\).*/\1/p')
+  trap "rm -rf \"$authfile\"; kill -9 -\"$group\"; exit" INT EXIT TERM
   serve_string "authorized, shigebot should now run" |
     nc -l -p 8070 | consume_request_get_token "$state" >"$authfile" &
   authpid=$!
