@@ -142,9 +142,9 @@ api() {
 }
 
 handle_recv() {
-  touch "$activity_file"
+  touch "$activity_file" || exit
   while read -r rl; do
-    touch "$activity_file"
+    touch "$activity_file" || exit
     echo "$rl" | sed 's/^[^:]/: &/' | sed 's/\xe2\x81\xad//g' |
       sed 's/\xf3\xa0\x80\x80//g'
   done
@@ -207,8 +207,8 @@ start_handler() {
   activity_file="$tmpdir/$bname.activity"
   while true; do
     stfu rm -f "$fifo"
-    mkfifo "$fifo"
-    touch "$activity_file"
+    mkfifo "$fifo" || exit
+    touch "$activity_file" || exit
     # shellcheck disable=SC2094
     openssl s_client -quiet -ign_eof -connect "$irc_server" <"$fifo" |
       connect >"$fifo" &
@@ -228,6 +228,7 @@ start_handler() {
       fi
       sleep 1
     done
+    sleep 1
   done
 }
 
