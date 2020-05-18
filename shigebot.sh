@@ -237,7 +237,7 @@ run() {
   . ./config.sh
   tmpdir="$(mktemp -d)"
   group=$(cat /proc/self/stat | sed -n '$s/.*) [^ ]* [^ ]* \([^ ]*\).*/\1/p')
-  trap "rm -rf \"\$tmpdir\"; kill -9 -"$group"; exit" INT EXIT TERM
+  trap "rm -rf \"$tmpdir\"; kill -9 -\"$group\"; exit" INT EXIT TERM
   for module in "${@:-handlers}"/*; do
     if [ -x "$module" ]; then
       for channel in $(echo "$channels" | awk '{ print $1 }'); do
