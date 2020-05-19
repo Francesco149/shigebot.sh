@@ -185,6 +185,8 @@ handle_send() {
         sed '
 s/nigger/nig\xf3\xa0\x80\x80ger/gi
 s/fag/fa\xf3\xa0\x80\x80g/gi
+s/\xe2\x81\xa3/\xf3\xa0\x80\x80/g
+s/\xe2\x81\xad/\xf3\xa0\x80\x80/g
         ' |
         awk -v suf="$suffix" '{ printf "%s%s\r\n", $0, suf }'
       sleep "$message_delay"
